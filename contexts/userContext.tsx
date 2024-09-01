@@ -14,7 +14,7 @@ interface User {
   interface UserContextType {
     isAuthenticated: boolean;
     user: User | null;
-    login: (user: User) => void;
+    login: (user?: User) => void;
     logout: () => void;
   }
   const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -28,10 +28,19 @@ interface User {
 
     const login = async (userData?: User) => {
     if(userData){
-        await setUser(userData) 
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData) 
+    }else if(localStorage.getItem("user")){
+      setUser(JSON.parse(localStorage.getItem("user")||""));
     }else{
         let currentUserData=await getCurrentUser()
-        setUser(currentUserData)
+        if(currentUserData !=null && currentUserData){
+        localStorage.setItem("user", JSON.stringify(currentUserData));
+        setUser(JSON.parse(localStorage.getItem("user")||""));
+        }else{
+            localStorage.removeItem("user");
+            setUser(null);
+        }
                 }
 
     };

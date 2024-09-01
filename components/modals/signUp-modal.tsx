@@ -21,7 +21,6 @@ import { useForm } from "react-hook-form"
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react";
-import { redirect } from 'next/navigation';
 import Image from "next/image";
 import logo from "@/media/ava-darkBG-logo.png"
 import { signUp } from "@/lib/services/authService";
@@ -33,7 +32,11 @@ export default function SignUpModal(){
     useEffect(() => {
         setIsMounted(true);
     },[])
-    const {login} = useUser();
+
+    const {login,isAuthenticated} = useUser();
+    useEffect(() => {
+        if(isAuthenticated) window.location.href = '/';
+    },[])
     const registerSchema =z.object({
         name: z.string().min(3,'Name must contain a minimum of 3 characters'),
         email: z.string().email('Invalid email address').min(1,'Email is required'),
@@ -61,13 +64,11 @@ export default function SignUpModal(){
         try{
             let val={name:values.name,email:values.email,password:values.password};
             await signUp(val)
-            login(null);
-            form.reset()
-            redirect('/');
-            // window.location.reload();
-
+            login();
+            form.reset();
+            window.location.href = '/';
         }catch(error){
-            await console.log(error)
+            console.log(error)
         }
     }
 
@@ -167,7 +168,7 @@ export default function SignUpModal(){
                             className="w-full text-white bg-[#9747FF] hover:bg-[#0366ff]" 
                             disabled={isLoading}
                             variant="default">
-                                Login
+                                Sign up
                             </Button>
 
                     </form>

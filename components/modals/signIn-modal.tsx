@@ -21,16 +21,17 @@ import { useForm } from "react-hook-form"
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react";
-import { redirect } from 'next/navigation';
 import Image from "next/image";
 import logo from "@/media/ava-darkBG-logo.png"
 import { signIn } from "@/lib/services/authService";
 import Link from "next/link";
 import { useUser } from "@/contexts/userContext";
 export default function SignInModal(){
-    const {login} = useUser();
     const [isMounted, setIsMounted] =useState(false);
-
+    const {user,login,isAuthenticated} = useUser();
+    useEffect(() => {
+        if(user!=null) window.location.href = '/';
+    },[])
     useEffect(() => {
         setIsMounted(true);
     },[])
@@ -54,8 +55,7 @@ export default function SignInModal(){
             await signIn(values)
             login(null);
             form.reset()
-            redirect('/');
-            // window.location.reload();
+            window.location.href = '/';
 
         }catch(error){
             await console.log(error)
