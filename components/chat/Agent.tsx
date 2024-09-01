@@ -67,12 +67,12 @@ const Agent = ({ chat_id, name, image, category, onClick }: AgentProps) => {
             onClick={onClick}
         >
             <div className={`w-8 h-8 rounded-full flex-shrink-0`} style={style}></div>
-            <div className="flex flex-col w-full"> 
+            <div className="flex flex-col w-full overflow-hidden"> 
                 <div className="flex flex-row justify-between items-center">
                     <span>{name}</span>
                     <span className="font-thin text-xs text-[#5661F6]">{datetime}</span>
                 </div>
-                <span className="font-thin text-xs text-[#CBCBCB]">{text}</span>
+                <span className="font-thin text-xs text-[#CBCBCB] truncate">{text}</span>
             </div>
         </div>
     );

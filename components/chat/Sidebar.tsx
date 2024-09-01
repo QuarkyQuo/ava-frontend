@@ -23,6 +23,7 @@ import {
     getRandomName,
 } from "@/lib/chatFunctions";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Agent {
     chatSessionId: string;
@@ -39,6 +40,7 @@ const Sidebar = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const { session, setSession } = useSessionContext();
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchData() {
@@ -47,7 +49,6 @@ const Sidebar = () => {
                 const chatSessions = data.chatSessions.reverse();
                 setChats(chatSessions);
                 setUser(data._id);
-                setSession(chatSessions[0]);
                 const agentsData = chatSessions.map((chat: string) => ({
                     chatSessionId: chat,
                     name: getRandomName(),
@@ -100,7 +101,7 @@ const Sidebar = () => {
                     image,
                     category,
                 };
-                setChats((prevChats) => [chatSessionId ,...prevChats]);
+                setChats((prevChats) => [chatSessionId, ...prevChats]);
                 setAgents((prevAgents) => [newAgent, ...prevAgents]);
                 alert("Agent added successfully!");
             }
@@ -172,6 +173,7 @@ const Sidebar = () => {
                                     category={a.category}
                                     onClick={() => {
                                         setSession(a.chatSessionId);
+                                        router.replace(`/chat/${a.chatSessionId}`);
                                     }}
                                 />
                             ))
