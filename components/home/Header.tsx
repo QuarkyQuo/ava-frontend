@@ -16,7 +16,7 @@ export const Header = () => {
                 />
                 <h1 className="text-3xl text-white font-semibold">Ava.ai</h1>
             </div>
-            <div className="flex flex-row gap-20">
+            {/* <div className="flex flex-row gap-20"> */}
                 <nav className="flex items-center gap-20 font-semibold">
                     <Link
                         href={"/"}
@@ -56,7 +56,7 @@ export const Header = () => {
                 >
                     Try Ava
                 </Button>
-            </div>
+            {/* </div> */}
         </header>
     );
 };

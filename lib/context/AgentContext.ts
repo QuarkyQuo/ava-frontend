@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, createContext, useContext } from "react";
 
 interface SessionContextType {			
-  session: String | null;		
-  setSession: Dispatch<SetStateAction<String | null>>;
+  session: string | null;		
+  setSession: Dispatch<SetStateAction<string | null>>;
 }
 
 export const sessionContext = createContext<SessionContextType | undefined>(undefined);

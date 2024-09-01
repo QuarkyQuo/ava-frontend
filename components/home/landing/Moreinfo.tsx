@@ -29,9 +29,9 @@ export const Moreinfo = () => {
                     How Ava.ai Can Help
                 </h1>
                 <Conversation />
-                <Mental />
+                {/* <Mental />
                 <Mindfulness />
-                <Education />
+                <Education /> */}
             </motion.div>
         </section>
     );

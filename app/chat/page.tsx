@@ -1,8 +1,9 @@
-import ChatComponent from "@/components/ChatComponent";
-
 export default function ChatPage() {
-
     return (
-        <ChatComponent/>
-    )
-  }
+        <div className="">
+            <h1 className="text-2xl font-semibold">
+                Select a chat to start messaging
+            </h1>
+        </div>
+    );
+}

@@ -1,5 +1,5 @@
 import { useSessionContext } from "../context/AgentContext";
-import { api, handleResponse, handleError } from "./apiService";
+import { api, handleResponse, handleError, api2 } from "./apiService";
 import { getCurrentUser } from "./authService";
 
 export const createSession = async (data) => {
@@ -27,13 +27,20 @@ export const getSession = async (data) => {
 };
 
 export const addPrompt = async (data) => {
-    await api()
-        .post(`/chat/${data.sessionId}/prompt`, {
-            promptId: data.id,
-            prompt: data.text,
+    const res = await api2()
+        .post(`process_prompt`, {
+            _id: data.sessionId,
+            prompt_details: {
+                promptId: data.id,
+                prompt: data.text,
+            },
         })
         .then(handleResponse)
         .catch(handleError);
+    if (res) {
+        console.log(res);
+        return res.responses[0];
+    }
 };
 
 export const addResponse = async (data) => {
@@ -43,4 +50,4 @@ export const addResponse = async (data) => {
         })
         .then(handleResponse)
         .catch(handleError);
-}
+};
