@@ -21,4 +21,4 @@ export const signUp = async (data) => {
 };
 
 export const getCurrentUser = async () =>
-    await api().get("/user").then(handleResponse).catch(handleError);
+    await api().get("user").then(handleResponse).catch(handleError);

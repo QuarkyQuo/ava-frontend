@@ -28,10 +28,15 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/ava-darkBG-logo.png";
 import { getCurrentUser, signIn, signUp } from "@/lib/services/authService";
+import { useUser } from "@/lib/context/userContext";
+import Link from "next/link";
 export default function SignInModal() {
     const router = useRouter();
     const [isMounted, setIsMounted] = useState(false);
-
+    const {user,login,isAuthenticated} = useUser();
+    useEffect(() => {
+        if(user!=null) router.push("/chat");
+    },[])
     useEffect(() => {
         setIsMounted(true);
     }, []);
@@ -55,13 +60,12 @@ export default function SignInModal() {
 
     const onSubmit = async (values: z.infer<typeof loginSchema>) => {
         try {
-            const result = await signIn(values);
-            console.log(result);
+            await signIn(values);
             form.reset();
+            login();
             router.push('/chat')
-            // window.location.reload();
         } catch (error) {
-            await console.log(error);
+            console.log(error);
         }
     };
 
@@ -132,6 +136,7 @@ export default function SignInModal() {
                         </Button>
                     </form>
                 </Form>
+                <div className="text-md font-normal"><h2 className="text-[#fff] inline">Don't have an account?</h2><Link className="font-medium inline text-[#0366ff]" href="/auth/sign-up"> Sign up</Link></div>
             </DialogContent>
         </Dialog>
     );

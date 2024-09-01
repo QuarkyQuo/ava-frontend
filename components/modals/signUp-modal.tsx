@@ -21,11 +21,12 @@ import { useForm } from "react-hook-form"
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import logo from "@/public/ava-darkBG-logo.png"
 import { signIn, signUp } from "@/lib/services/authService";
+import { useUser } from "@/lib/context/userContext";
+import Link from "next/link";
 export default function SignUpModal(){
     const router= useRouter();
     const [isMounted, setIsMounted] =useState(false);
@@ -33,6 +34,10 @@ export default function SignUpModal(){
     useEffect(() => {
         setIsMounted(true);
     },[])
+    const {user,login,isAuthenticated} = useUser();
+    useEffect(() => {
+        if(isAuthenticated) router.push("/chat");
+    },[user])
 
     const registerSchema =z.object({
         name: z.string().min(3,'Name must contain a minimum of 3 characters'),
@@ -61,12 +66,11 @@ export default function SignUpModal(){
         try{
             let val={name:values.name,email:values.email,password:values.password};
             await signUp(val)
+            login();
             form.reset()
             router.push('/chat');
-            // window.location.reload();
-
         }catch(error){
-            await console.log(error)
+            console.log(error)
         }
     }
 
@@ -166,11 +170,12 @@ export default function SignUpModal(){
                             className="w-full text-white bg-[#9747FF] hover:bg-[#0366ff]" 
                             disabled={isLoading}
                             variant="default">
-                                Login
+                                Sign Up
                             </Button>
 
                     </form>
                 </Form>
+                <div className="text-md font-normal"><h2 className="text-[#fff] inline">Already a user?</h2><Link className="font-medium inline text-[#0366ff]" href="/auth/sign-in"> Sign in</Link></div>
 
             </DialogContent>
         </Dialog>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { urbanist } from "./fonts";
 import "./globals.css";
+import { UserProvider } from "@/lib/context/userContext";
 
 export const metadata: Metadata = {
   title: "AVA",
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={urbanist.className}>{children}</body>
+      <body className={urbanist.className}>
+        <UserProvider>
+        {children}
+        </UserProvider>
+        </body>
     </html>
   );
 }
