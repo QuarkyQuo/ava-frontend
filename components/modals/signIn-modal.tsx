@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 
 import {Dialog, 
         DialogContent,
@@ -21,13 +21,14 @@ import { useForm } from "react-hook-form"
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import Image from "next/image";
 import logo from "@/media/ava-darkBG-logo.png"
-import { signIn, signUp } from "@/lib/services/authService";
+import { signIn } from "@/lib/services/authService";
+import Link from "next/link";
+import { useUser } from "@/contexts/userContext";
 export default function SignInModal(){
-    const router= useRouter();
+    const {login} = useUser();
     const [isMounted, setIsMounted] =useState(false);
 
     useEffect(() => {
@@ -51,8 +52,9 @@ export default function SignInModal(){
     const onSubmit = async (values:z.infer<typeof loginSchema>) => {
         try{
             await signIn(values)
+            login(null);
             form.reset()
-            router.push('/');
+            redirect('/');
             // window.location.reload();
 
         }catch(error){
@@ -124,7 +126,7 @@ export default function SignInModal(){
 
                     </form>
                 </Form>
-
+                <div className="text-md font-normal"><h2 className="text-[#fff] inline">Don't have an account?</h2><Link className="font-medium inline text-[#0366ff]" href="/auth/sign-up"> Sign up</Link></div>
             </DialogContent>
         </Dialog>
     )

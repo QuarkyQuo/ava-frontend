@@ -21,19 +21,19 @@ import { useForm } from "react-hook-form"
 import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import Image from "next/image";
 import logo from "@/media/ava-darkBG-logo.png"
-import { signIn, signUp } from "@/lib/services/authService";
+import { signUp } from "@/lib/services/authService";
+import Link from "next/link";
+import { useUser } from "@/contexts/userContext";
 export default function SignUpModal(){
-    const router= useRouter();
     const [isMounted, setIsMounted] =useState(false);
 
     useEffect(() => {
         setIsMounted(true);
     },[])
-
+    const {login} = useUser();
     const registerSchema =z.object({
         name: z.string().min(3,'Name must contain a minimum of 3 characters'),
         email: z.string().email('Invalid email address').min(1,'Email is required'),
@@ -61,8 +61,9 @@ export default function SignUpModal(){
         try{
             let val={name:values.name,email:values.email,password:values.password};
             await signUp(val)
+            login(null);
             form.reset()
-            router.push('/');
+            redirect('/');
             // window.location.reload();
 
         }catch(error){
@@ -171,6 +172,7 @@ export default function SignUpModal(){
 
                     </form>
                 </Form>
+                <div className="text-md font-normal"><h2 className="text-[#fff] inline">Already a user?</h2><Link className="font-medium inline text-[#0366ff]" href="/auth/sign-in"> Sign in</Link></div>
 
             </DialogContent>
         </Dialog>

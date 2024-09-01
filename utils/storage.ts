@@ -7,10 +7,10 @@ export const getAccessToken = (): string | null => {
     return null;
   };
 
-  export const setAccessToken = (token:string): void => {
+  export const setAccessToken = (token?:string | null): void => {
     if (typeof window !== 'undefined') {
       // We're in the browser
-      localStorage.setItem('access_token',token);
+      token?localStorage.setItem('access_token',token):localStorage.removeItem('access_token');
     }
 
   };
