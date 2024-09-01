@@ -5,7 +5,6 @@ import { setAccessToken } from "@/utils/storage";
 import { createContext,useState, ReactNode, useContext, useEffect } from "react";
 
 interface User {
-    _id: string;
     name: string;
     email: string;
     chatsessions: string[];
@@ -26,12 +25,15 @@ interface User {
         setIsMounted(true);
     },[]);
 
+    useEffect(() => {
+      let userToken = localStorage.getItem('user') || undefined;
+      userToken?setUser(JSON.parse(userToken)):setUser(user);
+    },[]);
+
     const login = async (userData?: User) => {
     if(userData){
         localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData) 
-    }else if(localStorage.getItem("user")){
-        setUser(JSON.parse(localStorage.getItem("user")||""));
     }else{
         let currentUserData=await getCurrentUser()
         console.log(currentUserData);

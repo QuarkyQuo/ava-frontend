@@ -5,7 +5,7 @@ import { Send } from "lucide-react";
 import { Prompt } from "@/lib/interfaces";
 import { sessionContext } from "@/lib/context/AgentContext";
 import Bubble from "./chat/Bubble";
-import { addPrompt, addResponse, getSession } from "@/lib/services/chatService";
+import { chatComplition, getSession } from "@/lib/services/chatService";
 import PulsatingDots from "./chat/PulsatingDots";
 
 interface ChatComponentProps {
@@ -49,8 +49,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ sessionId }) => {
         setInputMessage("");
 
         try {
-            // Call addPrompt and wait for the response
-            const res = await addPrompt({
+            // Call chatComplition and wait for the response
+            const res = await chatComplition({
                 sessionId: sessionId,
                 id: newPrompt.promptId,
                 text: newPrompt.prompt,

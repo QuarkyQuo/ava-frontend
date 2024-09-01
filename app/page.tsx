@@ -10,10 +10,13 @@ import { Join } from "@/components/home/landing/Join";
 import { motion } from "framer-motion";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
     const router = useRouter();
-
+    useEffect(() => {
+      if(localStorage.getItem("access_token")) router.push("/chat")
+    },[])
     return (
         <main className="text-sm">
             <motion.section

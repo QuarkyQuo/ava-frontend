@@ -34,10 +34,11 @@ export default function SignUpModal(){
     useEffect(() => {
         setIsMounted(true);
     },[])
-    const {user,login,isAuthenticated} = useUser();
+    const {user,login} = useUser();
     useEffect(() => {
-        if(isAuthenticated) router.push("/chat");
-    },[user])
+        console.log(user)
+        if(user !=null) router.push("/chat");
+    },[])
 
     const registerSchema =z.object({
         name: z.string().min(3,'Name must contain a minimum of 3 characters'),

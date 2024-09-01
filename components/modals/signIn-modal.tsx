@@ -33,7 +33,7 @@ import Link from "next/link";
 export default function SignInModal() {
     const router = useRouter();
     const [isMounted, setIsMounted] = useState(false);
-    const {user,login,isAuthenticated} = useUser();
+    const {user,login} = useUser();
     useEffect(() => {
         if(user!=null) router.push("/chat");
     },[])

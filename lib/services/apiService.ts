@@ -6,7 +6,7 @@ import { getAccessToken } from "@/utils/storage";
 const BACKEND_URI =
     process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
 
-const BACKEND_URI2 = "http://127.0.0.1:3001";
+const BACKEND_URI2 = "http://127.0.0.1:3100";
 
 export const api: any = (token?: string) => {
     let token_data = token ? token : getAccessToken();
@@ -21,18 +21,6 @@ export const api: any = (token?: string) => {
         });
 };
 
-export const api2: any = (token?: string) => {
-    let token_data = token ? token : getAccessToken();
-    if (typeof token_data === "string" && token_data.split(".").length === 3)
-        return axios.create({
-            baseURL: `${BACKEND_URI2}/`,
-            headers: { "x-auth-token": token_data },
-        });
-    else
-        return axios.create({
-            baseURL: `${BACKEND_URI2}/`,
-        });
-};
 
 export const handleResponse = (res) => {
     try {

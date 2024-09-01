@@ -10,11 +10,10 @@ interface AgentProps {
     onClick?: () => void;
 }
 
-const Agent = ({ chat_id, name, image, category, onClick }: AgentProps) => {
+const Agent = ({ chat_id,name,image, category, onClick }: AgentProps) => {
     const { session, setSession } = useSessionContext();
     const [datetime, setDatetime] = useState("");
     const [text, setText] = useState("");
-
     useEffect(() => {
         async function fetchData() {
             if (chat_id) {

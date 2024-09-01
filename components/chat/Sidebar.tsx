@@ -47,12 +47,12 @@ const Sidebar = () => {
             try {
                 const data = await getCurrentUser();
                 const chatSessions = data.chatSessions.reverse();
-                setChats(chatSessions);
+                setChats([...chatSessions.map((session:any) => {return session.sessionId})]);
                 setUser(data._id);
-                const agentsData = chatSessions.map((chat: string) => ({
-                    chatSessionId: chat,
-                    name: getRandomName(),
-                    image: getRandomHexColor(),
+                const agentsData = chatSessions.map((chat:any) => ({
+                    chatSessionId: chat.sessionId,
+                    name: chat.name,
+                    image: chat.image,
                     category: getRandomCategory(),
                 }));
                 setAgents(agentsData);
@@ -92,7 +92,7 @@ const Sidebar = () => {
         category: string
     ) => {
         try {
-            const chatSessionId = await createSession(user);
+            const chatSessionId = await createSession({name,image});
             console.log(chatSessionId);
             if (chatSessionId) {
                 const newAgent = {

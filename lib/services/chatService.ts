@@ -1,10 +1,10 @@
 import { useSessionContext } from "../context/AgentContext";
-import { api, handleResponse, handleError, api2 } from "./apiService";
+import { api, handleResponse, handleError} from "./apiService";
 import { getCurrentUser } from "./authService";
 
 export const createSession = async (data) => {
     const chatSession = await api()
-        .post("/chat", { userId: data })
+        .post("/chat", data)
         .then(handleResponse)
         .catch(handleError);
 
@@ -18,23 +18,24 @@ export const createSession = async (data) => {
 
 export const getSession = async (data) => {
     const res = await api()
-        .get(`/chat/${data}`)
+        .get(`chat/${data}`)
         .then(handleResponse)
         .catch(handleError);
     if (res) {
         return res;
     }
 };
-
-export const addPrompt = async (data) => {
-    const res = await api2()
-        .post(`process_prompt`, {
-            _id: data.sessionId,
-            prompt_details: {
+// {
+//     sessionId: sessionId,
+//     id: newPrompt.promptId,
+//     text: newPrompt.prompt,
+// }
+export const chatComplition = async (data) => {
+    const res = await api()
+        .post(`chat/${data.sessionId}/prompt`, {
                 promptId: data.id,
                 prompt: data.text,
-            },
-        })
+            })
         .then(handleResponse)
         .catch(handleError);
     if (res) {
@@ -43,11 +44,11 @@ export const addPrompt = async (data) => {
     }
 };
 
-export const addResponse = async (data) => {
-    await api()
-        .post(`/chat/${data.sessionId}/prompt/${data.promptId}/response`, {
-            response: data.text,
-        })
-        .then(handleResponse)
-        .catch(handleError);
-};
+// export const addResponse = async (data) => {
+//     await api()
+//         .post(`/chat/${data.sessionId}/prompt/${data.promptId}/response`, {
+//             response: data.text,
+//         })
+//         .then(handleResponse)
+//         .catch(handleError);
+// };
